@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+       repository: my-org/my-private-tools
+       token: ${{ secrets.GH_PAT }}
+       path: ${{ secrets.GH_DIR }}
+       submodules: "true"
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+          node-version: 16
+
+    - name: install
+      run: |
+         cd ${{ secrets.GH_DIR }}
+         ls
+
