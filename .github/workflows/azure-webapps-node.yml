@@ -13,7 +13,7 @@ jobs:
        repository: ${{ secrets.GH_RPO }}
        token: ${{ secrets.GH_PAT }}
        path: ${{ secrets.GH_DIR }}
-       submodules: "true"
+       submodules: "true" 
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -23,5 +23,24 @@ jobs:
     - name: install
       run: |
          cd ${{ secrets.GH_DIR }}
-         ls
+         npm install
+         npm run build
+         
+    - name: Commit Files
+      run: |
+        cd ${{ secrets.GH_DIR }}/${{ secrets.SUB_PATH }}
+        echo "$(date +%T) !" > a.txt
+        git config --local user.email "${{ secrets.EMAIL }}"
+        git config --local user.name "${{ secrets.USERNAME }}"
+        git add .
+        git commit -m "bot action" -a
+    
+    - name: Push Files
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_PAT }}
+        branch: 'main'
+        repository: '${{secrets.GH_SOURCE_RPO}}'
+        directory: "${{ secrets.GH_DIR }}/${{ secrets.SUB_PATH }}"
+    
 
