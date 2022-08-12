@@ -25,6 +25,7 @@ jobs:
          cd ${{ secrets.GH_DIR }}
          npm install
          npm run build
+         node build/source.js
          
     - name: Commit Files
       run: |
@@ -42,5 +43,22 @@ jobs:
         branch: 'main'
         repository: '${{secrets.GH_SOURCE_RPO}}'
         directory: "${{ secrets.GH_DIR }}/${{ secrets.SUB_PATH }}"
+        
+    - name: Commit Change
+      run: |
+          cd ${{ secrets.GH_DIR }}
+          git config --local user.email "${{ secrets.EMAIL }}"
+          git config --local user.name "${{ secrets.USERNAME }}"
+          echo "$(date +%T) !" > a.txt
+          git add .
+          git commit -m "bot action" -a
+
+    - name: Push Change
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_PAT }}
+        branch: 'main'
+        repository: '${{secrets.GH_RPO}}'
+        directory: "${{ secrets.GH_DIR }}"
     
 
