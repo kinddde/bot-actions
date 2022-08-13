@@ -43,6 +43,7 @@ jobs:
         git config --local user.name "${{ secrets.USERNAME }}"
         git add .
         git commit -m "bot action" -a
+        git pull
     
     - name: Push Files
       uses: ad-m/github-push-action@master
@@ -60,6 +61,7 @@ jobs:
           echo "$(date +%T) !" > a.txt
           git add .
           git commit -m "bot action" -a
+          git pull
 
     - name: Push Change
       uses: ad-m/github-push-action@master
