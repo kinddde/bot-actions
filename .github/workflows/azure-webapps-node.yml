@@ -34,9 +34,7 @@ jobs:
          npm install
          npm run build
          node build/source.js
-         ls
-    - name: test
-      run: ls
+
          
     - name: Commit Files
       run: |
